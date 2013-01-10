@@ -4,11 +4,9 @@ import static org.junit.Assert.fail;
 
 import org.basex.query.QueryException;
 import org.basex.query.QueryProcessor;
-import org.basex.query.util.Err;
 import org.basex.query.value.item.QNm;
 import org.basex.test.query.AdvancedQueryTest;
 import org.basex.util.Token;
-import org.basex.util.Util;
 import org.junit.Test;
 
 /**
@@ -17,9 +15,10 @@ import org.junit.Test;
  * @author BaseX Team 2005-12, BSD License
  * @author Masoumeh Seydi
  */
+
 public final class GeoModuleTest extends AdvancedQueryTest {
 
- /** Test method. */
+	/** Test method. */
   @Test
   public void dimension() {
 	  runQuery("geo:dimension(<gml:Point><gml:coordinates>1,2</gml:coordinates></gml:Point>)", "0");
@@ -853,7 +852,9 @@ public final class GeoModuleTest extends AdvancedQueryTest {
    * @param query query string
    * @param error expected error
    */
+
   static void runError(final String query, final QNm error) {
+
 	final String q = "import module namespace geo='http://basex.org/geo/GeoModule'; " +
 	        "declare namespace gml='http://www.opengis.net/gml';" + query;
 	  

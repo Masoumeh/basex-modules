@@ -3,7 +3,6 @@ package org.basex.geo;
 import static org.basex.util.Token.token;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigInteger;
 
 import org.basex.BaseXGUI;
@@ -22,17 +21,13 @@ import org.basex.query.value.item.B64;
 import org.basex.query.value.item.Bln;
 import org.basex.query.value.item.Dbl;
 import org.basex.query.value.item.Int;
-import org.basex.query.value.item.Item;
 import org.basex.query.value.item.QNm;
 import org.basex.query.value.item.Str;
 import org.basex.query.value.node.ANode;
 import org.basex.query.value.node.DBNode;
-import org.basex.query.value.node.FElem;
 import org.basex.query.value.seq.Empty;
-import org.basex.query.value.seq.Seq;
 import org.basex.query.value.type.NodeType;
 
-import com.vividsolutions.jts.JTSVersion;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
@@ -46,17 +41,11 @@ import com.vividsolutions.jts.io.gml2.GMLReader;
 import com.vividsolutions.jts.io.gml2.GMLWriter;
 
 /**
- * This module contains geo spatial functions for the Geo module.
+ * This module contains geo spatial functions for Geo module.
  *
  * @author BaseX Team 2005-12, BSD License
  * @author Masoumeh Seydi
  */
-
-// Geotools
-//import org.geotools.geometry.jts.JTS;
-//import org.geotools.gml3.v3_2.GMLConfiguration;
-//import org.geotools.xml.*;
-//import org.opengis.feature.simple.SimpleFeature;
 
 
 public class GeoModule extends QueryModule {
@@ -77,7 +66,8 @@ public class GeoModule extends QueryModule {
 	  private static final QNm Q_GML_LINEARRING = new QNm("gml:LinearRing", GMLURI);
 	  /** QName gml:MultiLineString. */
 	  /** QName gml:Polygon. */
-	  private static final QNm Q_GML_MULTILINESTRING = new QNm("gml:MultiLineString", GMLURI);
+	  	  private static final QNm Q_GML_MULTILINESTRING = new QNm("gml:MultiLineString", GMLURI);
+	  /** QName gml:Polygon. */
 	  private static final QNm Q_GML_POLYGON = new QNm("gml:Polygon", GMLURI);
 	  /** QName gml:MultiPolygon. */
 	  private static final QNm Q_GML_MULTIPOLYGON = new QNm("gml:MultiPolygon", GMLURI);
@@ -91,32 +81,6 @@ public class GeoModule extends QueryModule {
 		  new BaseXGUI();
 	  }
 	  
-	  /**
-	   * Reads an element as a gml node and returns the geometry.
-	   * @param element xml node containing gml object(s) 
-	   * @return geometry
-	   * @throws QueryException 
-	   */
-//	  public Geometry newGmlReader(final ANode node) throws QueryException, JAXBException {
-//	
-//		  SimpleFeature simpleFeature;
-//		  try {
-//			  String gml = "<gml:Point><gml:coordinates>1,1</gml:coordinates></gml:Point>";
-//            
-//				if (simpleFeature == null) {
-//	                return null;
-//	            } else {
-//	                org.geotools.xml.Configuration configuration = new GMLConfiguration(true);
-//	                Parser parser = new Parser(configuration);
-//	                InputStream xml = new ByteArrayInputStream(gml.getBytes());
-//					Geometry geometry = (Geometry) parser.parse(xml);
-//	                return geometry;
-//	            }
-//	        } catch (Exception ex) {
-//	          ex.printStackTrace();
-//	        }
-//		return null;	
-//	  }
 	  /**
 	   * Reads an element as a gml node and returns the geometry.
 	   * @param element xml node containing gml object(s) 
@@ -215,7 +179,6 @@ public class GeoModule extends QueryModule {
 		    return geomType;
 	    }
 	    throw GeoErrors.unrecognizedGeo(node);
-	    
 
 	  }
 
@@ -493,10 +456,9 @@ public class GeoModule extends QueryModule {
 					 || qname2.eq(Q_GML_POLYGON) || qname2.eq(Q_GML_MULTIPOINT)
 					 || qname2.eq(Q_GML_MULTILINESTRING) || qname2.eq(Q_GML_MULTIPOLYGON)
 					 || qname2.eq(Q_GML_LINEARRING)) {
-					  
 					  Geometry geom1 = gmlReader(node1);
-					  Geometry geom2 = gmlReader(node2);
-					  return Bln.get(geom1.intersects(geom2));
+					 Geometry geom2 = gmlReader(node1);
+					 return Bln.get(geom1.intersects(geom2));
 				  }
 				  throw GeoErrors.unrecognizedGeo(qname2.local());
 			}
@@ -597,9 +559,10 @@ public class GeoModule extends QueryModule {
 			  QNm qname2 = node2.qname();
 
 			  // 	Check QName
-			  if (qname1.eq(Q_GML_POINT) || qname1.eq(Q_GML_LINESTRING) || qname1.eq(Q_GML_POLYGON)
-				      || qname1.eq(Q_GML_MULTIPOINT) || qname1.eq(Q_GML_MULTILINESTRING)
-				      || qname1.eq(Q_GML_MULTIPOLYGON) || qname1.eq(Q_GML_LINEARRING)) {
+			  if (qname1.eq(Q_GML_POINT) || qname1.eq(Q_GML_LINESTRING) 
+					  || qname1.eq(Q_GML_POLYGON) || qname1.eq(Q_GML_MULTIPOINT)
+					  || qname1.eq(Q_GML_MULTILINESTRING) || qname1.eq(Q_GML_MULTIPOLYGON)
+					  || qname1.eq(Q_GML_LINEARRING)) {
 					  
 				  if (qname2.eq(Q_GML_POINT) || qname2.eq(Q_GML_LINESTRING)
 					 || qname2.eq(Q_GML_POLYGON) || qname2.eq(Q_GML_MULTIPOINT)
@@ -718,7 +681,7 @@ public class GeoModule extends QueryModule {
 						  || qname2.eq(Q_GML_POLYGON)|| qname2.eq(Q_GML_LINEARRING)
 						  || qname2.eq(Q_GML_MULTIPOINT) || qname2.eq(Q_GML_MULTILINESTRING) 
 				  		  || qname2.eq(Q_GML_MULTIPOLYGON)) {
-
+			 
 					  Geometry geom1 = gmlReader(node1);
 					  Geometry geom2 = gmlReader(node2);
 					  return Bln.get(geom1.relate(geom2, intersectionMatrix.toJava()));
@@ -972,6 +935,7 @@ public class GeoModule extends QueryModule {
 					  Geometry geom1 = gmlReader(node1);
 					  Geometry geom2 = gmlReader(node2);
 					  Geometry diff = geom1.symDifference(geom2);
+					  
 					// Write the Geometry in GML2 format
 					  return gmlWriter(diff);
 		   		  }
@@ -980,8 +944,7 @@ public class GeoModule extends QueryModule {
 			 throw GeoErrors.unrecognizedGeo(qname1.local());
 		} 
 		
-		
-		
+
 		/**
 		 * Returns the nth geometry of a geometry collection.
 		 * @param node xml element containing gml object(s)
