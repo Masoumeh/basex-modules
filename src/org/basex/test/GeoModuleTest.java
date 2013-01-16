@@ -45,6 +45,19 @@ public final class GeoModuleTest extends AdvancedQueryTest {
   
   /** Test method. */
   @Test
+  public void SRID() {
+	  runQuery("geo:SRID(<gml:Polygon srsName=\"http://www.opengis.net/gml/srs/epsg.xml#4326\">" +
+	  		"<outerboundaryIs><gml:LinearRing><coordinates>-150,50 -150,60 -125,60 -125,50 -150,50" +
+	  		"</coordinates></gml:LinearRing></outerboundaryIs></gml:Polygon>)", "0");
+	  
+	  runError("geo:SRID(text {'a'})", new QNm("FORG0006"));
+	  runError("geo:SRID(<gml:unknown/>)", new QNm("GEO0001"));
+	  runError("geo:SRID(<gml:LinearRing><gml:pos>1,1 20,1 50,30 1,1</gml:pos></gml:LinearRing>)",
+			  new QNm("GEO0002"));
+  }
+  
+  /** Test method. */
+  @Test
   public void envelope() {
 	  runQuery("geo:envelope(<gml:LinearRing><gml:coordinates>1,1 20,1 50,30 1,1</gml:coordinates></gml:LinearRing>)",
 			  "<gml:Polygon srsName=\"0\"><gml:outerBoundaryIs><gml:LinearRing srsName=\"0\"><gml:coordinates>" +
@@ -81,17 +94,17 @@ public final class GeoModuleTest extends AdvancedQueryTest {
 			  new QNm("GEO0002"));
   }
   
-  /** Test method. */
-  @Test
-  public void isEmpty() { ////////////////??????????????????????????????????????????????
-	  runQuery("geo:isEmpty(<gml:LineString><gml:coordinates>1,1 55,99 2,1</gml:coordinates></gml:LineString>)",
-	  		"false");
-
-	  runError("geo:isEmpty(text {'a'})", new QNm("FORG0006"));
-	  runError("geo:isEmpty(<gml:unknown/>)", new QNm("GEO0001"));
-	  runError("geo:isEmpty(<gml:LinearRing><gml:coordinates>1,1 55,99 2,1</gml:coordinates></gml:LinearRing>)",
-			  new QNm("GEO0002"));
-  }
+//  /** Test method. */
+//  @Test
+//  public void isEmpty() { 
+//	  runQuery("geo:isEmpty(<gml:LineString><gml:coordinates>1,1 55,99 2,1</gml:coordinates></gml:LineString>)",
+//	  		"false");
+//
+//	  runError("geo:isEmpty(text {'a'})", new QNm("FORG0006"));
+//	  runError("geo:isEmpty(<gml:unknown/>)", new QNm("GEO0001"));
+//	  runError("geo:isEmpty(<gml:LinearRing><gml:coordinates>1,1 55,99 2,1</gml:coordinates></gml:LinearRing>)",
+//			  new QNm("GEO0002"));
+//  }
   
   /** Test method. */
   @Test
@@ -319,7 +332,7 @@ public final class GeoModuleTest extends AdvancedQueryTest {
 	  		"</gml:coordinates></gml:LinearRing></gml:outerBoundaryIs></gml:Polygon>");
 
 	  runQuery("geo:buffer(<gml:LineString><gml:coordinates>1,1 5,9 2,1</gml:coordinates></gml:LineString>," +
-		  		"xs:double(0))", "<gml:MultiGeometry srsName=\"0\"/>");
+		  		"xs:double(0))", "");
 	  runError("geo:buffer(<gml:LinearRing><gml:coordinates>1,1 55,99 2,1</gml:coordinates></gml:LinearRing>," +
 	  		" xs:double(1))", new QNm("GEO0002"));
 	  runError("geo:buffer(<gml:LinearRing><gml:coordinates>1,1 55,99 1,1</gml:coordinates></gml:LinearRing>," +
@@ -350,7 +363,7 @@ public final class GeoModuleTest extends AdvancedQueryTest {
 	  		" <gml:Polygon><gml:outerBoundaryIs><gml:LinearRing><gml:coordinates>" +
 	  		"10,10 20,10 30,40 10,10</gml:coordinates></gml:LinearRing>" +
 	  		"</gml:outerBoundaryIs></gml:Polygon>)",
-	  		"<gml:MultiGeometry srsName=\"0\"/>");
+	  		"");
 
 	  runQuery("geo:intersection(<gml:LinearRing><gml:coordinates>1,1 55,99 2,3 1,1" +
 		  		"</gml:coordinates></gml:LinearRing>," +
@@ -650,9 +663,6 @@ public final class GeoModuleTest extends AdvancedQueryTest {
 		  		"<gml:coordinates>2,1 3,3 4,4</gml:coordinates></gml:LineString>" +
 		  		"</gml:MultiLineString>)",
 		  		"6");
-		  
-	  runError("geo:numPoints(<gml:Point><gml:coordinates>2,3</gml:coordinates></gml:Point>)",
-	  		new QNm("GEO0004"));
 	  
 	  runError("geo:numPoints(<gml:LineString><gml:coordinates>1,1</gml:coordinates></gml:LineString>)",
 			  		new QNm("GEO0002"));

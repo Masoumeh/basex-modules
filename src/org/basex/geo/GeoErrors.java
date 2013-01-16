@@ -45,30 +45,30 @@ public class GeoErrors {
 	  }
 	  
 	  /**
-	   * GEO0003: Input geometry have to be a Polygon.
+	   * GEO0003: Input geometry should be a Polygon.
 	   * @return query exception
 	   */
 	  static QueryException polygonNeeded(final Object element) {
 		    return thrw(3, "% is not an appropiate geometry for this function. " +
-			  		"The input geometry have to be a Polygon.", element);
+			  		"The input geometry should be a Polygon.", element);
 	  }
 	  
 	  /**
-	   * GEO0004: Input geometry have to be a Line.
+	   * GEO0004: Input geometry should be a Line.
 	   * @return query exception
 	   */
 	  static QueryException lineNeeded(final Object element) {
 		    return thrw(4, "% is not an appropiate geometry for this function. " +
-			  		"The input geometry have to be a Line.", element);
+			  		"The input geometry should be a Line.", element);
 	  }
 	  
 	  /**
-	   * GEO0005: Input geometry have to be a Point.
+	   * GEO0005: Input geometry should be a Point.
 	   * @return query exception
 	   */
 	  static QueryException pointNeeded(final Object element) {
 		    return thrw(5, "% is not an appropiate geometry for this function. " +
-			  		"The input geometry have to be a Point.", element);
+			  		"The input geometry should be a Point.", element);
 	  }
 
 	  /**
@@ -85,7 +85,8 @@ public class GeoErrors {
 	   */
 	  static QueryException singleGeo(final Object element) {
 		    return thrw(7, "% is not an appropiate geometry for this function. " +
-			  		"The input geometry have to be a single geometry.", element);
+			  		"The input geometry should be a single geometry," +
+			  		" not a geometry collection.", element);
 	  }
 	  
 	  /**
